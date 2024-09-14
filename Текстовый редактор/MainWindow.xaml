@@ -1,0 +1,83 @@
+﻿<Window x:Class="Текстовый_редактор.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Текстовый_редактор"
+        mc:Ignorable="d"
+        Title="Текстовый редактор" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ToolBar Height="35" Grid.Row="0">
+            <Button x:Name="undoButton" Click="UndoButton_Click">
+                <Image Source="undo.png" />
+            </Button>
+            <Separator />
+            <Button x:Name="openBtn" Click="openBtn_Click">
+                <Image Source="open.png" />
+            </Button>
+            <Separator />
+            <Button x:Name="saveBtn" Click="saveBtn_Click">
+                <Image Source="save.png" />
+            </Button>
+            <Separator />
+            <Button x:Name="printBtn" Click="printBtn_Click">
+                <Image Source="print.png" />
+            </Button>
+            <Separator />
+            <ToggleButton x:Name="btnBold" Command="EditingCommands.ToggleBold" Width="30">Ж</ToggleButton>
+            <Separator />
+            <ToggleButton x:Name="btnItalic" Command="EditingCommands.ToggleItalic" Width="30">К</ToggleButton>
+            <Separator />
+            <ToggleButton x:Name="btnUnderline" Command="EditingCommands.ToggleUnderline"  Width="30">
+                <ToggleButton.Content>
+                    <TextBlock TextDecorations="Underline">Ч</TextBlock>
+                </ToggleButton.Content>
+            </ToggleButton>
+            <Separator />
+            <ComboBox IsEditable="False" x:Name="fontCombobox" Width="100" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="{Binding}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Separator />
+            <ComboBox x:Name="fontSizeBox" IsEditable="True" TextBoxBase.TextChanged="ComboBox_TextChanged">
+                <!-- Изменение цвета текста -->
+            </ComboBox>
+            <ComboBox x:Name="ColourBrush" Margin="0,0,0,0.4" VerticalAlignment="Stretch" Width="120" SelectionChanged="ComboBox_ColourFonts">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}" Width="16" Height="16" Margin="0,2,5,2" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Separator />
+            <!-- Поле для ввода текста для поиска -->
+            <TextBox x:Name="searchTextBox" Width="150" VerticalContentAlignment="Center" Height="29" />
+            <!-- Кнопка поиска -->
+            <Button x:Name="searchBtn" Click="searchBtn_Click">
+                <Image Source="search.png" />
+            </Button>
+        </ToolBar>
+
+        <!-- Редактор текста -->
+        <RichTextBox x:Name="textEditor" Grid.Row="1" 
+             SelectionChanged="textEditor_SelectionChanged" 
+             PreviewTextInput="TextEditor_PreviewTextInput"
+             SpellCheck.IsEnabled="True" xml:lang="ru-RU">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
+    </Grid>
+</Window>
